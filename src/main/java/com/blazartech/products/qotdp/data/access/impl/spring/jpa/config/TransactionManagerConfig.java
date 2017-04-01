@@ -22,7 +22,7 @@ public class TransactionManagerConfig {
     @Autowired
     private EntityManagerFactory emf;
     
-    @Bean(name = "transactionManager")
+    @Bean(name = "txManager")
     public PlatformTransactionManager getJpaTransactionManager() {
         JpaTransactionManager m = new JpaTransactionManager(emf);
         return m;

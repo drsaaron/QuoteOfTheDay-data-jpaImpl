@@ -48,5 +48,10 @@
             <artifactId>hibernate-core</artifactId>
             <version>5.2.5.Final</version>
         </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjtools</artifactId>
+            <version>1.8.10</version>
+        </dependency>
     </dependencies>
 </project>

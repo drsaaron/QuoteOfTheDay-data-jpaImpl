@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
@@ -18,6 +19,10 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
  * @author scott
  */
 @Configuration
+@EnableJpaRepositories(basePackages = "com.blazartech.products.qotdp.data.access.impl.spring.jpa.repos",
+                       transactionManagerRef = "txManager",
+                       entityManagerFactoryRef = "entityManagerFactory"
+                       )
 public class EntityManagerConfig {
     
     @Autowired

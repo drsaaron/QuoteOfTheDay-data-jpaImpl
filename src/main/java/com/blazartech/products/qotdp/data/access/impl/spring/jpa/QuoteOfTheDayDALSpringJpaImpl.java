@@ -19,6 +19,7 @@ import com.blazartech.products.qotdp.data.access.impl.spring.jpa.repos.QuoteOfTh
 import com.blazartech.products.qotdp.data.access.impl.spring.jpa.repos.SrcValDataRepository;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import org.apache.log4j.Logger;
@@ -178,10 +179,13 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
         logger.info("getting all source codes");
         
         Collection<SrcValData> srcValCollection = srcValDataRepository.findAll();
-        Collection<QuoteSourceCode> sourceCodes = new ArrayList<>();
+        List<QuoteSourceCode> sourceCodes = new ArrayList<>();
         srcValCollection.stream().map((srcVal) -> buildSourceCode(srcVal)).forEachOrdered((srcCode) -> {
             sourceCodes.add(srcCode);
         });
+        
+        // sort alphabetically
+        Collections.sort(sourceCodes, new SourceCodeComparator());
         
         return sourceCodes;
     }
