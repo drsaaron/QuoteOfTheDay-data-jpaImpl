@@ -9,6 +9,7 @@ import com.blazartech.products.qotdp.data.access.impl.spring.jpa.entity.QuoteOfT
 import java.util.Collection;
 import java.util.Date;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -19,5 +20,5 @@ import org.springframework.stereotype.Repository;
 public interface QuoteOfTheDayDataRepository extends JpaRepository<QuoteOfTheDayData, Integer> {
     
     QuoteOfTheDayData findByQuoteDate(Date quoteDate);
-    Collection<QuoteOfTheDayData> findByDateRange(int quoteNumber, Date startDate, Date endDate);
+    Collection<QuoteOfTheDayData> findByDateRange(@Param("quoteNumber") int quoteNumber, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
 }

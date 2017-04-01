@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "QuoteData.findAll", query = "SELECT q FROM QuoteData q")
     , @NamedQuery(name = "QuoteData.findByQuoteNum", query = "SELECT q FROM QuoteData q WHERE q.quoteNum = :quoteNum")
-    , @NamedQuery(name = "QuoteData.findByCanUse", query = "SELECT q FROM QuoteData q WHERE q.canUse = :canUse")})
+})
 public class QuoteData implements Serializable {
 
     private static final long serialVersionUID = 1L;
