@@ -5,6 +5,7 @@
  */
 package com.blazartech.products.qotdp.data.access.impl.spring.jpa.config;
 
+import java.util.Properties;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -39,6 +40,14 @@ public class EntityManagerConfig {
         f.setPersistenceXmlLocation("classpath:META-INF/persistence.xml");
         f.setJpaVendorAdapter(jpaVendorDapter);
         f.setPersistenceUnitName("com.blazartech_QuoteOfTheDay-data-jpaImpl_jar_1.0-SNAPSHOTPU");
+        
+        // set the hibernate.hbm2ddl.auto to disable any schema updates.  This
+        // seems the only way to do it.  Putting it in the persistence.xml file
+        // doens't seem to cut it.  Set the property to an invalid value so that
+        // it just doesn't do anything.
+        Properties props = new Properties();
+        props.setProperty("hibernate.hbm2ddl.auto", "none");
+        f.setJpaProperties(props);
         
         return f;
     }
