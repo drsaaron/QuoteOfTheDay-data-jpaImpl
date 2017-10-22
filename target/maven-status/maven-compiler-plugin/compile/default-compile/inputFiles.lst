@@ -1,0 +1,14 @@
+/home/scott/NetBeansProjects/QuoteOfTheDay-data-jpaImpl/src/main/java/com/blazartech/products/qotdp/data/access/impl/spring/jpa/config/JpaVendorAdapterConfig.java
+/home/scott/NetBeansProjects/QuoteOfTheDay-data-jpaImpl/target/generated-sources/annotations/com/blazartech/products/qotdp/data/access/impl/spring/jpa/entity/QuoteOfTheDayData_.java
+/home/scott/NetBeansProjects/QuoteOfTheDay-data-jpaImpl/src/main/java/com/blazartech/products/qotdp/data/access/impl/spring/jpa/entity/QuoteData.java
+/home/scott/NetBeansProjects/QuoteOfTheDay-data-jpaImpl/src/main/java/com/blazartech/products/qotdp/data/access/impl/spring/jpa/config/TransactionManagerConfig.java
+/home/scott/NetBeansProjects/QuoteOfTheDay-data-jpaImpl/src/main/java/com/blazartech/products/qotdp/data/access/impl/spring/jpa/SourceCodeComparator.java
+/home/scott/NetBeansProjects/QuoteOfTheDay-data-jpaImpl/src/main/java/com/blazartech/products/qotdp/data/access/impl/spring/jpa/entity/QuoteOfTheDayData.java
+/home/scott/NetBeansProjects/QuoteOfTheDay-data-jpaImpl/src/main/java/com/blazartech/products/qotdp/data/access/impl/spring/jpa/QuoteOfTheDayDALSpringJpaImpl.java
+/home/scott/NetBeansProjects/QuoteOfTheDay-data-jpaImpl/target/generated-sources/annotations/com/blazartech/products/qotdp/data/access/impl/spring/jpa/entity/SrcValData_.java
+/home/scott/NetBeansProjects/QuoteOfTheDay-data-jpaImpl/src/main/java/com/blazartech/products/qotdp/data/access/impl/spring/jpa/repos/SrcValDataRepository.java
+/home/scott/NetBeansProjects/QuoteOfTheDay-data-jpaImpl/target/generated-sources/annotations/com/blazartech/products/qotdp/data/access/impl/spring/jpa/entity/QuoteData_.java
+/home/scott/NetBeansProjects/QuoteOfTheDay-data-jpaImpl/src/main/java/com/blazartech/products/qotdp/data/access/impl/spring/jpa/repos/QuoteOfTheDayDataRepository.java
+/home/scott/NetBeansProjects/QuoteOfTheDay-data-jpaImpl/src/main/java/com/blazartech/products/qotdp/data/access/impl/spring/jpa/repos/QuoteDataRepository.java
+/home/scott/NetBeansProjects/QuoteOfTheDay-data-jpaImpl/src/main/java/com/blazartech/products/qotdp/data/access/impl/spring/jpa/entity/SrcValData.java
+/home/scott/NetBeansProjects/QuoteOfTheDay-data-jpaImpl/src/main/java/com/blazartech/products/qotdp/data/access/impl/spring/jpa/config/EntityManagerConfig.java
