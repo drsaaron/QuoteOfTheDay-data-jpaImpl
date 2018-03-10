@@ -59,14 +59,14 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
             q.setQuoteNum(quote.getNumber());
         }
         q.setQuoteTxt(quote.getText());
-        q.setSrcCde(srcValDataRepository.findOne(quote.getSourceCode()));
+        q.setSrcCde(srcValDataRepository.findById(quote.getSourceCode()).get());
     }
 
     @Override
     public Quote getQuote(int quoteNumber) {
         logger.info("getting quote #" + quoteNumber);
 
-        QuoteData quote = quoteDataRepository.findOne(quoteNumber);
+        QuoteData quote = quoteDataRepository.findById(quoteNumber).get();
         return buildQuote(quote);
     }
 
@@ -74,7 +74,7 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
     public void updateQuote(Quote q) {
         logger.info("updating quote " + q.getNumber());
 
-        QuoteData quote = quoteDataRepository.findOne(q.getNumber());
+        QuoteData quote = quoteDataRepository.findById(q.getNumber()).get();
         buildQuoteData(q, quote);
 
         quoteDataRepository.save(quote);
@@ -98,7 +98,7 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
     public QuoteSourceCode getQuoteSourceCode(int sourceCode) {
         logger.info("getting source code " + sourceCode);
 
-        SrcValData srcVal = srcValDataRepository.findOne(sourceCode);
+        SrcValData srcVal = srcValDataRepository.findById(sourceCode).get();
         return buildSourceCode(srcVal);
     }
 
@@ -106,7 +106,7 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
     public void updateQuoteSourceCode(QuoteSourceCode sourceCode) {
         logger.info("updating source code " + sourceCode.getNumber());
 
-        SrcValData srcVal = srcValDataRepository.findOne(sourceCode.getNumber());
+        SrcValData srcVal = srcValDataRepository.findById(sourceCode.getNumber()).get();
         buildSrcValData(sourceCode, srcVal);
 
         srcValDataRepository.save(srcVal);
@@ -154,7 +154,7 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
             qotdData.setQotdNum(qotd.getNumber());
         }
         qotdData.setQuoteDate(qotd.getRunDate());
-        qotdData.setQuoteNum(quoteDataRepository.findOne(qotd.getQuoteNumber()));
+        qotdData.setQuoteNum(quoteDataRepository.findById(qotd.getQuoteNumber()).get());
     }
 
     @Override
@@ -169,7 +169,7 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
     public void updateQuoteOfTheDay(QuoteOfTheDay qotd) {
         logger.info("updating quote of the day for " + qotd);
         
-        QuoteOfTheDayData qotdData = quoteOfTheDayDataRepository.findOne(qotd.getNumber());
+        QuoteOfTheDayData qotdData = quoteOfTheDayDataRepository.findById(qotd.getNumber()).get();
         buildQuoteOfTheDayData(qotd, qotdData);
         quoteOfTheDayDataRepository.save(qotdData);
     }
@@ -242,7 +242,7 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
         logger.info("getting quotes for source code " + sourceCode);
         
         // retrieve the source code and use its quote collection.
-        SrcValData srcCode = srcValDataRepository.findOne(sourceCode);
+        SrcValData srcCode = srcValDataRepository.findById(sourceCode).get();
         Collection<QuoteData> quotes = srcCode.getQuoteCollection();
         
         return buildQuoteCollection(quotes);
@@ -253,7 +253,7 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
         logger.info("getting history for quote #" + quoteNumber);
         
         // get the quotes of the day via the quote.
-        QuoteData quoteData = quoteDataRepository.findOne(quoteNumber);
+        QuoteData quoteData = quoteDataRepository.findById(quoteNumber).get();
         Collection<QuoteOfTheDayData> qotdCollection = quoteData.getQuoteOfTheDayCollection();
         
         // convert to a collection of application objects.
