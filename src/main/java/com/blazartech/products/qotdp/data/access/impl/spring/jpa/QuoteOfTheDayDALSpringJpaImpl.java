@@ -24,6 +24,7 @@ import java.util.Date;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -63,6 +64,7 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
     }
 
     @Override
+    @Cacheable(cacheManager = "cacheManager", key="#quoteNumber", cacheNames = "quoteCache")
     public Quote getQuote(int quoteNumber) {
         logger.info("getting quote #" + quoteNumber);
 
@@ -95,6 +97,7 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
     }
 
     @Override
+    @Cacheable(cacheManager = "cacheManager", key="#sourceCode", cacheNames = "sourceCodeCache")
     public QuoteSourceCode getQuoteSourceCode(int sourceCode) {
         logger.info("getting source code " + sourceCode);
 
@@ -158,6 +161,7 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
     }
 
     @Override
+    @Cacheable(cacheManager = "cacheManager", key="#runDate", cacheNames = "qotdCache")
     public QuoteOfTheDay getQuoteOfTheDay(Date runDate) {
         logger.info("getting quote of the day for " + runDate);
 
