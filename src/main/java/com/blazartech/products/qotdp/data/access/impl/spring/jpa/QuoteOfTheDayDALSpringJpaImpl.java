@@ -117,9 +117,11 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
 
     private Collection<Quote> buildQuoteCollection(Collection<QuoteData> quoteCollection) {
         List<Quote> quotes = new ArrayList<>();
-        quoteCollection.stream().map((q) -> buildQuote(q)).forEachOrdered((quote) -> {
-            quotes.add(quote);
-        });
+        quoteCollection.stream()
+	    .map((q) -> buildQuote(q))
+	    .forEachOrdered((quote) -> {
+		    quotes.add(quote);
+		});
 
         return quotes;
     }
@@ -184,9 +186,11 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
         
         Collection<SrcValData> srcValCollection = srcValDataRepository.findAll();
         List<QuoteSourceCode> sourceCodes = new ArrayList<>();
-        srcValCollection.stream().map((srcVal) -> buildSourceCode(srcVal)).forEachOrdered((srcCode) -> {
-            sourceCodes.add(srcCode);
-        });
+        srcValCollection.stream()
+	    .map((srcVal) -> buildSourceCode(srcVal))
+	    .forEachOrdered((srcCode) -> {
+		    sourceCodes.add(srcCode);
+		});
         
         // sort alphabetically
         Collections.sort(sourceCodes, new SourceCodeComparator());
@@ -234,9 +238,11 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
         
         Collection<QuoteOfTheDayData> qotdCollection = quoteOfTheDayDataRepository.findByDateRange(quoteNumber, startDate, endDate);
         Collection<QuoteOfTheDay> qotds = new ArrayList<>();
-        qotdCollection.stream().map((qotdData) -> buildQuoteOfTheDay(qotdData)).forEachOrdered((qotd) -> {
-            qotds.add(qotd);
-        });
+        qotdCollection.stream()
+	    .map((qotdData) -> buildQuoteOfTheDay(qotdData))
+	    .forEachOrdered((qotd) -> {
+		    qotds.add(qotd);
+		});
         
         return qotds;
     }
@@ -262,9 +268,11 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
         
         // convert to a collection of application objects.
         Collection<QuoteOfTheDay> qotdList = new ArrayList<>();
-        qotdCollection.stream().map((qotdData) -> buildQuoteOfTheDay(qotdData)).forEachOrdered((qotd) -> {
-            qotdList.add(qotd);
-        });
+        qotdCollection.stream()
+	    .map((qotdData) -> buildQuoteOfTheDay(qotdData))
+	    .forEachOrdered((qotd) -> {
+		    qotdList.add(qotd);
+		});
         
         // build the history
         return buildQuoteOfTheDayHistory(qotdList, quoteNumber);
