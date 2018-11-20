@@ -7,11 +7,13 @@ package com.blazartech.products.qotdp.data.access.impl.spring.jpa;
 
 import com.blazartech.products.qotdp.data.QuoteSourceCode;
 import java.util.Comparator;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author scott
  */
+@Component
 public class SourceCodeComparator implements Comparator<QuoteSourceCode> {
 
     @Override

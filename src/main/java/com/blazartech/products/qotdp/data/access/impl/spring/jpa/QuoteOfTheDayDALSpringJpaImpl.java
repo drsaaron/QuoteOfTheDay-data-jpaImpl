@@ -20,6 +20,7 @@ import com.blazartech.products.qotdp.data.access.impl.spring.jpa.repos.SrcValDat
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import org.apache.log4j.Logger;
@@ -180,6 +181,9 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
         quoteOfTheDayDataRepository.save(qotdData);
     }
 
+    @Autowired
+    private Comparator<QuoteSourceCode> sourceCodeComparator;
+    
     @Override
     public Collection<QuoteSourceCode> getQuoteSourceCodes() {
         logger.info("getting all source codes");
@@ -193,7 +197,7 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
 		});
         
         // sort alphabetically
-        Collections.sort(sourceCodes, new SourceCodeComparator());
+        Collections.sort(sourceCodes, sourceCodeComparator);
         
         return sourceCodes;
     }
