@@ -165,7 +165,6 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
     }
 
     @Override
-    @Cacheable(cacheManager = "cacheManager", key="#runDate", cacheNames = "qotdCache")
     public QuoteOfTheDay getQuoteOfTheDay(Date runDate) {
         logger.info("getting quote of the day for " + runDate);
 
