@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -51,7 +52,7 @@ public class QuoteData implements Serializable {
     @Column(name = "CanUse")
     private String canUse;
     @JoinColumn(name = "SrcCde", referencedColumnName = "SrcCde")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private SrcValData srcCde;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "quoteNum")
     private Collection<QuoteOfTheDayData> quoteOfTheDayCollection;
