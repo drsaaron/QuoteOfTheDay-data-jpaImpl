@@ -26,6 +26,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -77,6 +78,7 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
     }
 
     @Override
+    @CacheEvict(cacheManager = "cacheManager", cacheNames = "quoteCache", key = "#q.number")
     public void updateQuote(Quote q) {
         logger.info("updating quote " + q.getNumber());
 
