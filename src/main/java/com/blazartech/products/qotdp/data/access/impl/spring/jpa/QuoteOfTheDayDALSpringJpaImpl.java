@@ -62,7 +62,9 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
             q.setQuoteNum(quote.getNumber());
         }
         q.setQuoteTxt(quote.getText());
-        q.setSrcCde(srcValDataRepository.findById(quote.getSourceCode()).get());
+	if (q.getSrcCde() == null) {
+	    q.setSrcCde(srcValDataRepository.findById(quote.getSourceCode()).get());
+	}
     }
 
     @Override
@@ -81,7 +83,7 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
         QuoteData quote = quoteDataRepository.findById(q.getNumber()).get();
         buildQuoteData(q, quote);
 
-        quoteDataRepository.save(quote);
+        quoteDataRepository.saveAndFlush(quote);
     }
 
     private QuoteSourceCode buildSourceCode(SrcValData srcVal) {
@@ -114,7 +116,7 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
         SrcValData srcVal = srcValDataRepository.findById(sourceCode.getNumber()).get();
         buildSrcValData(sourceCode, srcVal);
 
-        srcValDataRepository.save(srcVal);
+        srcValDataRepository.saveAndFlush(srcVal);
     }
 
     private Collection<Quote> buildQuoteCollection(Collection<QuoteData> quoteCollection) {
@@ -178,7 +180,7 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
         
         QuoteOfTheDayData qotdData = quoteOfTheDayDataRepository.findById(qotd.getNumber()).get();
         buildQuoteOfTheDayData(qotd, qotdData);
-        quoteOfTheDayDataRepository.save(qotdData);
+        quoteOfTheDayDataRepository.saveAndFlush(qotdData);
     }
 
     @Autowired
