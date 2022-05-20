@@ -9,14 +9,14 @@
  */
 
 CREATE TABLE SrcVal (
-  `SrcCde` int unsigned NOT NULL,
+  `SrcCde` int  NOT NULL,
   `SrcTxt` varchar(45) NOT NULL,
   PRIMARY KEY (`SrcCde`)
 );
 
 CREATE TABLE Quote (
-  `QuoteNum` int unsigned NOT NULL ,
-  `SrcCde` int unsigned NOT NULL,
+  `QuoteNum` int  NOT NULL ,
+  `SrcCde` int  NOT NULL,
   `QuoteTxt` text NOT NULL,
   `CanUse` enum('Y','N') NOT NULL,
   PRIMARY KEY (`QuoteNum`)
