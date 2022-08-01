@@ -5,6 +5,7 @@
 package com.blazartech.products.qotdp.data.access.impl.spring.jpa;
 
 import com.blazartech.products.qotdp.data.Quote;
+import com.blazartech.products.qotdp.data.QuoteSourceCode;
 import com.blazartech.products.qotdp.data.access.QuoteOfTheDayDAL;
 import com.blazartech.products.qotdp.data.access.impl.spring.jpa.config.JpaVendorAdapterConfig;
 import com.blazartech.products.qotdp.data.access.impl.spring.jpa.config.TransactionManagerConfig;
@@ -14,10 +15,13 @@ import com.blazartech.products.qotdp.data.access.impl.spring.jpa.repos.SrcValDat
 import com.blazartech.products.qotdp.data.access.impl.spring.jpa.repos.TestDataSourceConfiguration;
 import com.blazartech.products.qotdp.data.access.impl.spring.jpa.repos.TestEntityManagerConfiguration;
 import com.blazartech.products.qotdp.data.config.CacheConfiguration;
+import java.util.Collection;
 import javax.transaction.Transactional;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,7 +46,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
     TestDataSourceConfiguration.class,
     JpaVendorAdapterConfig.class,
     TransactionManagerConfig.class,
-    CacheConfiguration.class
+    CacheConfiguration.class,
+    SourceCodeComparatorConfiguration.class
 })
 @Transactional
 public class QuoteOfTheDayDALSpringJpaImplTest {
@@ -56,11 +61,7 @@ public class QuoteOfTheDayDALSpringJpaImplTest {
         public QuoteOfTheDayDALSpringJpaImpl instance() {
             return new QuoteOfTheDayDALSpringJpaImpl();
         }
-        
-        @Bean
-        public SourceCodeComparator sourceCodeComparator() {
-            return new SourceCodeComparator();
-        }
+   
     }
     
     @Autowired
@@ -123,5 +124,21 @@ public class QuoteOfTheDayDALSpringJpaImplTest {
         // get the updated value.
         q = instance.getQuote(q.getNumber());
         assertEquals(FINAL_QUOTE_TEXT, q.getText());
+    }
+    
+    @Test
+    @Sql("/dalTest.sql")
+    public void testGetQuoteSourceCodes() {
+        logger.info("testGetQuoteSourceCodes");
+        
+        Collection<QuoteSourceCode> sourceCodes = instance.getQuoteSourceCodes();
+        assertNotNull(sourceCodes);
+        assertTrue(sourceCodes.size() > 0);
+        sourceCodes.forEach(c -> logger.info("source code " + c.getText()));
+        
+        // ensure the sorting is as expected.  The third one should be moved up 
+        // to the front of the list.
+        QuoteSourceCode first = sourceCodes.iterator().next();
+        assertEquals(3, first.getNumber());
     }
 }

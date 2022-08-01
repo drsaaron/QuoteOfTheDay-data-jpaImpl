@@ -7,18 +7,19 @@ package com.blazartech.products.qotdp.data.access.impl.spring.jpa;
 
 import com.blazartech.products.qotdp.data.QuoteSourceCode;
 import java.util.Comparator;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 /**
  *
  * @author scott
  */
-@Component
-public class SourceCodeComparator implements Comparator<QuoteSourceCode> {
+@Configuration
+public class SourceCodeComparatorConfiguration  {
 
-    @Override
-    public int compare(QuoteSourceCode t, QuoteSourceCode t1) {
-        return t.getText().compareTo(t1.getText());
+    @Bean
+    public Comparator<QuoteSourceCode> sourceCodeComparator() {
+        return (t1, t2) -> t1.getText().compareTo(t2.getText());
     }
     
 }

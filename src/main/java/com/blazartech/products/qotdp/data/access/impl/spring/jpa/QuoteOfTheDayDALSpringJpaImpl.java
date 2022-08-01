@@ -17,12 +17,12 @@ import com.blazartech.products.qotdp.data.access.impl.spring.jpa.entity.SrcValDa
 import com.blazartech.products.qotdp.data.access.impl.spring.jpa.repos.QuoteDataRepository;
 import com.blazartech.products.qotdp.data.access.impl.spring.jpa.repos.QuoteOfTheDayDataRepository;
 import com.blazartech.products.qotdp.data.access.impl.spring.jpa.repos.SrcValDataRepository;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,13 +63,13 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
             q.setQuoteNum(quote.getNumber());
         }
         q.setQuoteTxt(quote.getText());
-	if (q.getSrcCde() == null) {
-	    q.setSrcCde(srcValDataRepository.findById(quote.getSourceCode()).get());
-	}
+        if (q.getSrcCde() == null) {
+            q.setSrcCde(srcValDataRepository.findById(quote.getSourceCode()).get());
+        }
     }
 
     @Override
-    @Cacheable(cacheManager = "cacheManager", key="#quoteNumber", cacheNames = "quoteCache")
+    @Cacheable(cacheManager = "cacheManager", key = "#quoteNumber", cacheNames = "quoteCache")
     public Quote getQuote(int quoteNumber) {
         logger.info("getting quote #" + quoteNumber);
 
@@ -103,7 +103,7 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
     }
 
     @Override
-    @Cacheable(cacheManager = "cacheManager", key="#sourceCode", cacheNames = "sourceCodeCache")
+    @Cacheable(cacheManager = "cacheManager", key = "#sourceCode", cacheNames = "sourceCodeCache")
     public QuoteSourceCode getQuoteSourceCode(int sourceCode) {
         logger.info("getting source code " + sourceCode);
 
@@ -122,12 +122,10 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
     }
 
     private Collection<Quote> buildQuoteCollection(Collection<QuoteData> quoteCollection) {
-        List<Quote> quotes = new ArrayList<>();
-        quoteCollection.stream()
-	    .map((q) -> buildQuote(q))
-	    .forEachOrdered((quote) -> {
-		    quotes.add(quote);
-		});
+        List<Quote> quotes
+                = quoteCollection.stream()
+                        .map((q) -> buildQuote(q))
+                        .collect(Collectors.toList());
 
         return quotes;
     }
@@ -159,7 +157,7 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
             return null;
         }
     }
-    
+
     private void buildQuoteOfTheDayData(QuoteOfTheDay qotd, QuoteOfTheDayData qotdData) {
         if (qotd.getNumber() > 0) {
             qotdData.setQotdNum(qotd.getNumber());
@@ -179,7 +177,7 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
     @Override
     public void updateQuoteOfTheDay(QuoteOfTheDay qotd) {
         logger.info("updating quote of the day for " + qotd);
-        
+
         QuoteOfTheDayData qotdData = quoteOfTheDayDataRepository.findById(qotd.getNumber()).get();
         buildQuoteOfTheDayData(qotd, qotdData);
         quoteOfTheDayDataRepository.saveAndFlush(qotdData);
@@ -187,44 +185,40 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
 
     @Autowired
     private Comparator<QuoteSourceCode> sourceCodeComparator;
-    
+
     @Override
     public Collection<QuoteSourceCode> getQuoteSourceCodes() {
         logger.info("getting all source codes");
-        
+
         Collection<SrcValData> srcValCollection = srcValDataRepository.findAll();
-        List<QuoteSourceCode> sourceCodes = new ArrayList<>();
-        srcValCollection.stream()
-	    .map((srcVal) -> buildSourceCode(srcVal))
-	    .forEachOrdered((srcCode) -> {
-		    sourceCodes.add(srcCode);
-		});
-        
-        // sort alphabetically
-        Collections.sort(sourceCodes, sourceCodeComparator);
-        
+        List<QuoteSourceCode> sourceCodes
+                = srcValCollection.stream()
+                        .map((srcVal) -> buildSourceCode(srcVal))
+                        .sorted(sourceCodeComparator)
+                        .collect(Collectors.toList());
+
         return sourceCodes;
     }
 
     @Override
     public void addQuote(Quote q) {
         logger.info("adding new quote");
-        
+
         QuoteData quote = new QuoteData();
         buildQuoteData(q, quote);
-        
+
         quoteDataRepository.save(quote);
-        
+
         q.setNumber(quote.getQuoteNum());
     }
 
     @Override
     public void addQuoteOfTheDay(QuoteOfTheDay qotd) {
         logger.info("adding quote of the day for " + qotd.getRunDate());
-        
+
         QuoteOfTheDayData qotdData = new QuoteOfTheDayData();
         buildQuoteOfTheDayData(qotd, qotdData);
-        
+
         quoteOfTheDayDataRepository.save(qotdData);
         qotd.setNumber(qotdData.getQotdNum());
     }
@@ -232,10 +226,10 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
     @Override
     public void addQuoteSourceCode(QuoteSourceCode sourceCode) {
         logger.info("adding source code " + sourceCode.getText());
-        
+
         SrcValData srcVal = new SrcValData();
         buildSrcValData(sourceCode, srcVal);
-        
+
         srcValDataRepository.save(srcVal);
         sourceCode.setNumber(srcVal.getSrcCde());
     }
@@ -243,60 +237,54 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
     @Override
     public Collection<QuoteOfTheDay> getQuoteOfTheDayInDateRange(int quoteNumber, Date startDate, Date endDate) {
         logger.info("looking for instances of quote #" + quoteNumber + " in date range " + startDate + " to " + endDate);
-        
+
         Collection<QuoteOfTheDayData> qotdCollection = quoteOfTheDayDataRepository.findByDateRangeAndQuoteNumber(quoteNumber, startDate, endDate);
-        Collection<QuoteOfTheDay> qotds = new ArrayList<>();
-        qotdCollection.stream()
-	    .map((qotdData) -> buildQuoteOfTheDay(qotdData))
-	    .forEachOrdered((qotd) -> {
-		    qotds.add(qotd);
-		});
-        
+        Collection<QuoteOfTheDay> qotds
+                = qotdCollection.stream()
+                        .map((qotdData) -> buildQuoteOfTheDay(qotdData))
+                        .collect(Collectors.toList());
+
         return qotds;
     }
-    
+
     @Override
     public Collection<QuoteOfTheDay> getQuoteOfTheDayInDateRange(Date startDate, Date endDate) {
         logger.info("getting quotes of day in date range " + startDate + " to " + endDate);
-        
+
         Collection<QuoteOfTheDayData> qotdCollection = quoteOfTheDayDataRepository.findByDateRange(startDate, endDate);
-        Collection<QuoteOfTheDay> qotds = new ArrayList<>();
-        qotdCollection.stream()
-	    .map((qotdData) -> buildQuoteOfTheDay(qotdData))
-	    .forEachOrdered((qotd) -> {
-		    qotds.add(qotd);
-		});
-        
+        Collection<QuoteOfTheDay> qotds
+                = qotdCollection.stream()
+                        .map((qotdData) -> buildQuoteOfTheDay(qotdData))
+                        .collect(Collectors.toList());
+
         return qotds;
     }
 
     @Override
     public Collection<Quote> getQuotesForSourceCode(int sourceCode) {
         logger.info("getting quotes for source code " + sourceCode);
-        
+
         // retrieve the source code and use its quote collection.
         SrcValData srcCode = srcValDataRepository.findById(sourceCode).get();
         Collection<QuoteData> quotes = srcCode.getQuoteCollection();
-        
+
         return buildQuoteCollection(quotes);
     }
 
     @Override
     public QuoteOfTheDayHistory getQuoteOfTheDayHistoryForQuote(int quoteNumber) {
         logger.info("getting history for quote #" + quoteNumber);
-        
+
         // get the quotes of the day via the quote.
         QuoteData quoteData = quoteDataRepository.findById(quoteNumber).get();
         Collection<QuoteOfTheDayData> qotdCollection = quoteData.getQuoteOfTheDayCollection();
-        
+
         // convert to a collection of application objects.
-        Collection<QuoteOfTheDay> qotdList = new ArrayList<>();
-        qotdCollection.stream()
-	    .map((qotdData) -> buildQuoteOfTheDay(qotdData))
-	    .forEachOrdered((qotd) -> {
-		    qotdList.add(qotd);
-		});
-        
+        Collection<QuoteOfTheDay> qotdList
+                = qotdCollection.stream()
+                        .map((qotdData) -> buildQuoteOfTheDay(qotdData))
+                        .collect(Collectors.toList());
+
         // build the history
         return buildQuoteOfTheDayHistory(qotdList, quoteNumber);
     }

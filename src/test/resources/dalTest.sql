@@ -17,20 +17,20 @@
  * Created: May 22, 2021
  */
 
-CREATE TABLE SrcVal (
+CREATE TABLE if not exists SrcVal (
   `SrcCde` int  NOT NULL,
   `SrcTxt` varchar(45) NOT NULL,
   PRIMARY KEY (`SrcCde`)
 );
 
-CREATE TABLE Quote (
+CREATE TABLE if not exists Quote (
   `QuoteNum` int  NOT NULL AUTO_INCREMENT,
   `SrcCde` int  NOT NULL,
   `QuoteTxt` text NOT NULL,
   `CanUse` enum('Y','N') NOT NULL
 );
 
-CREATE TABLE `QuoteOfTheDay` (
+CREATE TABLE if not exists `QuoteOfTheDay` (
   `QotdNum` int  NOT NULL,
   `QuoteDate` date NOT NULL,
   `QuoteNum` int  NOT NULL,
@@ -39,4 +39,5 @@ CREATE TABLE `QuoteOfTheDay` (
 
 insert into SrcVal(SrcCde, SrcTxt) values(1, 'test 1');
 insert into SrcVal(SrcCde, SrcTxt) values(2, 'test 2');
+insert into SrcVal(SrcCde, SrcTxt) values(3, 'I am first');
 
