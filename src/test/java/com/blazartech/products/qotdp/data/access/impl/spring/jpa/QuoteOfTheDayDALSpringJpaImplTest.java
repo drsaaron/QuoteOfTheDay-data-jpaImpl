@@ -20,6 +20,7 @@ import javax.transaction.Transactional;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
@@ -97,7 +98,6 @@ public class QuoteOfTheDayDALSpringJpaImplTest {
     
     private static final String INIT_QUOTE_TEXT = "Initial";
     private static final String FINAL_QUOTE_TEXT = "Updated";
-    private static final int QUOTE_NUM = 100;
     
     @Test
     @Sql("/dalTest.sql")
@@ -140,5 +140,19 @@ public class QuoteOfTheDayDALSpringJpaImplTest {
         // to the front of the list.
         QuoteSourceCode first = sourceCodes.iterator().next();
         assertEquals(3, first.getNumber());
+    }
+    
+    @Test
+    @Sql("/dalTest.sql")
+    public void testGetQuotesForSourceCode() {
+        logger.info("testGetQuotesForSourceCode");
+                
+        Collection<Quote> quotes = instance.getQuotesForSourceCode(2);
+        assertNotNull(quotes);
+        assertFalse(quotes.isEmpty());
+        
+        // test sorting, quote #1 having been inserted second should show up first
+        Quote firstQuote = quotes.iterator().next();
+        assertEquals(10, firstQuote.getNumber());
     }
 }

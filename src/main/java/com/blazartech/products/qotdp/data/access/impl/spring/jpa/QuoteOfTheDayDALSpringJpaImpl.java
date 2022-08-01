@@ -124,6 +124,7 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
         List<Quote> quotes
                 = quoteCollection.stream()
                         .map((q) -> buildQuote(q))
+                        .sorted((q1, q2) -> Integer.compare(q1.getNumber(), q2.getNumber())) // ensure we're sorted by quote number
                         .collect(Collectors.toList());
 
         return quotes;

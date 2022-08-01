@@ -41,3 +41,6 @@ insert into SrcVal(SrcCde, SrcTxt) values(1, 'test 1');
 insert into SrcVal(SrcCde, SrcTxt) values(2, 'test 2');
 insert into SrcVal(SrcCde, SrcTxt) values(3, 'I am first');
 
+insert into Quote(QuoteNum, SrcCde, QuoteTxt, CanUse) values(100, 2, 'First quote', 'Y');
+insert into Quote(QuoteNum, SrcCde, QuoteTxt, CanUse) values(10, 2, 'Second quote', 'Y');
+
