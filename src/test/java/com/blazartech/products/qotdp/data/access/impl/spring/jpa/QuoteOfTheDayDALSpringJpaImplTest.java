@@ -7,13 +7,13 @@ package com.blazartech.products.qotdp.data.access.impl.spring.jpa;
 import com.blazartech.products.qotdp.data.Quote;
 import com.blazartech.products.qotdp.data.QuoteSourceCode;
 import com.blazartech.products.qotdp.data.access.QuoteOfTheDayDAL;
-import com.blazartech.products.qotdp.data.access.impl.spring.jpa.config.JpaVendorAdapterConfig;
 import com.blazartech.products.qotdp.data.access.impl.spring.jpa.config.TransactionManagerConfig;
 import com.blazartech.products.qotdp.data.access.impl.spring.jpa.repos.QuoteDataRepository;
 import com.blazartech.products.qotdp.data.access.impl.spring.jpa.repos.QuoteOfTheDayDataRepository;
 import com.blazartech.products.qotdp.data.access.impl.spring.jpa.repos.SrcValDataRepository;
 import com.blazartech.products.qotdp.data.access.impl.spring.jpa.repos.TestDataSourceConfiguration;
 import com.blazartech.products.qotdp.data.access.impl.spring.jpa.repos.TestEntityManagerConfiguration;
+import com.blazartech.products.qotdp.data.access.impl.spring.jpa.repos.TestJpaVendorAdapterConfiguration;
 import com.blazartech.products.qotdp.data.config.CacheConfiguration;
 import java.util.Collection;
 import javax.transaction.Transactional;
@@ -45,7 +45,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
     QuoteOfTheDayDALSpringJpaImplTest.QuoteOfTheDayDALSpringJpaImplTestConfiguration.class,
     TestEntityManagerConfiguration.class,
     TestDataSourceConfiguration.class,
-    JpaVendorAdapterConfig.class,
+    TestJpaVendorAdapterConfiguration.class,
     TransactionManagerConfig.class,
     CacheConfiguration.class,
     SourceCodeComparatorConfiguration.class
