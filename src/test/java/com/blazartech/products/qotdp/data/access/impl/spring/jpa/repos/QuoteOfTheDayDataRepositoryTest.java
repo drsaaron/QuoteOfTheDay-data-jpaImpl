@@ -5,6 +5,7 @@
  */
 package com.blazartech.products.qotdp.data.access.impl.spring.jpa.repos;
 
+import com.blazartech.products.qotdp.data.access.impl.spring.jpa.config.JpaVendorAdapterConfig;
 import com.blazartech.products.qotdp.data.access.impl.spring.jpa.config.TransactionManagerConfig;
 import com.blazartech.products.qotdp.data.access.impl.spring.jpa.entity.QuoteOfTheDayData;
 import java.text.ParseException;
@@ -37,7 +38,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
     QuoteOfTheDayDataRepositoryTest.QuoteOfTheDayDataRepositoryTestConfiguration.class,
     TestEntityManagerConfiguration.class,
     TestDataSourceConfiguration.class,
-    TestJpaVendorAdapterConfiguration.class,
+    JpaVendorAdapterConfig.class,
     TransactionManagerConfig.class
 })
 @Transactional

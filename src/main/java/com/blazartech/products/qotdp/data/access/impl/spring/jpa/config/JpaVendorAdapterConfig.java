@@ -5,6 +5,7 @@
  */
 package com.blazartech.products.qotdp.data.access.impl.spring.jpa.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -18,11 +19,14 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 @Configuration
 public class JpaVendorAdapterConfig {
     
+    @Value("${qotd.config.jpa.vendorType:MYSQL}")
+    private String vendorType;
+    
     @Bean
     public JpaVendorAdapter getJpaVendorAdapter() {
         HibernateJpaVendorAdapter va = new HibernateJpaVendorAdapter();
         va.setShowSql(true);
-        va.setDatabase(Database.MYSQL);
+        va.setDatabase(Database.valueOf(vendorType));
         va.setGenerateDdl(true);
         return va;
     }
