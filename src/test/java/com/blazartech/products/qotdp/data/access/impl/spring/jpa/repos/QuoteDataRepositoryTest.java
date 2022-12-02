@@ -9,7 +9,7 @@ import com.blazartech.products.qotdp.data.access.impl.spring.jpa.config.JpaVendo
 import com.blazartech.products.qotdp.data.access.impl.spring.jpa.config.TransactionManagerConfig;
 import com.blazartech.products.qotdp.data.access.impl.spring.jpa.entity.QuoteData;
 import java.util.Collection;
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;

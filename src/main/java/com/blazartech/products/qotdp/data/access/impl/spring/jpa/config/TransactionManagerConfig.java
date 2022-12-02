@@ -5,7 +5,7 @@
  */
 package com.blazartech.products.qotdp.data.access.impl.spring.jpa.config;
 
-import javax.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

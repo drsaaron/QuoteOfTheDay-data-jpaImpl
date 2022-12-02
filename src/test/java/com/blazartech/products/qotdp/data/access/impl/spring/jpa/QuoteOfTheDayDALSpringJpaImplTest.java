@@ -16,7 +16,7 @@ import com.blazartech.products.qotdp.data.access.impl.spring.jpa.repos.TestDataS
 import com.blazartech.products.qotdp.data.access.impl.spring.jpa.repos.TestEntityManagerConfiguration;
 import com.blazartech.products.qotdp.data.config.CacheConfiguration;
 import java.util.Collection;
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
