@@ -7,7 +7,7 @@
   <rules>
     <rule groupId="org.hibernate.orm" comparisonMethod="maven">
       <ignoreVersions>
-        <ignoreVersion type="regex">.*CR1</ignoreVersion>
+        <ignoreVersion type="regex">.*CR[1-9]</ignoreVersion>
         <ignoreVersion>6.2.0.CR1</ignoreVersion>
       </ignoreVersions>
     </rule>
