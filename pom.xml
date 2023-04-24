@@ -96,14 +96,14 @@
         <repository>
             <id>nexus</id>
             <name>my nexus</name>
-            <url>http://192.168.1.20:8081/repository/maven-releases/</url>
+            <url>http://localhost:8081/repository/maven-releases/</url>
         </repository>
     </repositories>
 
     <distributionManagement>
         <repository>
             <id>nexus</id>
-            <url>http://192.168.1.20:8081/repository/maven-releases/</url>
+            <url>http://localhost:8081/repository/maven-releases/</url>
         </repository>
     </distributionManagement>
 
