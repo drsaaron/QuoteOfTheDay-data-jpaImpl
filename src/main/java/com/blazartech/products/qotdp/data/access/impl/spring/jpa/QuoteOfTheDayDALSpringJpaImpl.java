@@ -234,15 +234,20 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
         sourceCode.setNumber(srcVal.getSrcCde());
     }
 
+    private Collection<QuoteOfTheDay> buildQuoteOfTheDayList(Collection<QuoteOfTheDayData> qotdCollection) {
+        Collection<QuoteOfTheDay> qotds
+                = qotdCollection.stream()
+                        .map((qotdData) -> buildQuoteOfTheDay(qotdData))
+                        .collect(Collectors.toList());
+        return qotds;
+    }
+    
     @Override
     public Collection<QuoteOfTheDay> getQuoteOfTheDayInDateRange(int quoteNumber, Date startDate, Date endDate) {
         logger.info("looking for instances of quote #" + quoteNumber + " in date range " + startDate + " to " + endDate);
 
         Collection<QuoteOfTheDayData> qotdCollection = quoteOfTheDayDataRepository.findByDateRangeAndQuoteNumber(quoteNumber, startDate, endDate);
-        Collection<QuoteOfTheDay> qotds
-                = qotdCollection.stream()
-                        .map((qotdData) -> buildQuoteOfTheDay(qotdData))
-                        .collect(Collectors.toList());
+        Collection<QuoteOfTheDay> qotds = buildQuoteOfTheDayList(qotdCollection);
 
         return qotds;
     }
@@ -252,10 +257,7 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
         logger.info("getting quotes of day in date range " + startDate + " to " + endDate);
 
         Collection<QuoteOfTheDayData> qotdCollection = quoteOfTheDayDataRepository.findByDateRange(startDate, endDate);
-        Collection<QuoteOfTheDay> qotds
-                = qotdCollection.stream()
-                        .map((qotdData) -> buildQuoteOfTheDay(qotdData))
-                        .collect(Collectors.toList());
+        Collection<QuoteOfTheDay> qotds = buildQuoteOfTheDayList(qotdCollection);
 
         return qotds;
     }
@@ -280,10 +282,7 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
         Collection<QuoteOfTheDayData> qotdCollection = quoteData.getQuoteOfTheDayCollection();
 
         // convert to a collection of application objects.
-        Collection<QuoteOfTheDay> qotdList
-                = qotdCollection.stream()
-                        .map((qotdData) -> buildQuoteOfTheDay(qotdData))
-                        .collect(Collectors.toList());
+        Collection<QuoteOfTheDay> qotdList = buildQuoteOfTheDayList(qotdCollection);
 
         // build the history
         return buildQuoteOfTheDayHistory(qotdList, quoteNumber);

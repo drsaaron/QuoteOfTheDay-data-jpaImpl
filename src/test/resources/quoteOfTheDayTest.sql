@@ -22,3 +22,8 @@ insert into QuoteOfTheDay(QotdNum, QuoteDate, QuoteNum) values(2, '2020-01-02', 
 insert into QuoteOfTheDay(QotdNum, QuoteDate, QuoteNum) values(3, '2020-01-03', 3);
 insert into QuoteOfTheDay(QotdNum, QuoteDate, QuoteNum) values(4, '2020-01-04', 4);
 insert into QuoteOfTheDay(QotdNum, QuoteDate, QuoteNum) values(5, '2020-01-05', 1);
+insert into QuoteOfTheDay(QotdNum, QuoteDate, QuoteNum) values(6, '2021-01-01', 1);
+insert into QuoteOfTheDay(QotdNum, QuoteDate, QuoteNum) values(7, '2021-01-02', 2);
+insert into QuoteOfTheDay(QotdNum, QuoteDate, QuoteNum) values(8, '2021-01-03', 3);
+insert into QuoteOfTheDay(QotdNum, QuoteDate, QuoteNum) values(9, '2021-01-04', 4);
+insert into QuoteOfTheDay(QotdNum, QuoteDate, QuoteNum) values(10, '2021-01-05', 1);

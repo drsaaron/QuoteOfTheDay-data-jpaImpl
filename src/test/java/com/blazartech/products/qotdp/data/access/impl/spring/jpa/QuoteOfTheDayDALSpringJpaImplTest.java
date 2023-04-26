@@ -5,6 +5,7 @@
 package com.blazartech.products.qotdp.data.access.impl.spring.jpa;
 
 import com.blazartech.products.qotdp.data.Quote;
+import com.blazartech.products.qotdp.data.QuoteOfTheDay;
 import com.blazartech.products.qotdp.data.QuoteSourceCode;
 import com.blazartech.products.qotdp.data.access.QuoteOfTheDayDAL;
 import com.blazartech.products.qotdp.data.access.impl.spring.jpa.config.JpaVendorAdapterConfig;
@@ -17,6 +18,9 @@ import com.blazartech.products.qotdp.data.access.impl.spring.jpa.repos.TestEntit
 import com.blazartech.products.qotdp.data.config.CacheConfiguration;
 import java.util.Collection;
 import jakarta.transaction.Transactional;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -52,22 +56,22 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 })
 @Transactional
 public class QuoteOfTheDayDALSpringJpaImplTest {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(QuoteOfTheDayDALSpringJpaImplTest.class);
-    
+
     @Configuration
     static class QuoteOfTheDayDALSpringJpaImplTestConfiguration {
-        
+
         @Bean
         public QuoteOfTheDayDALSpringJpaImpl instance() {
             return new QuoteOfTheDayDALSpringJpaImpl();
         }
-   
+
     }
-    
+
     @Autowired
     private QuoteOfTheDayDAL instance;
-    
+
     @Autowired
     private QuoteDataRepository quoteDataRepository;
 
@@ -76,34 +80,34 @@ public class QuoteOfTheDayDALSpringJpaImplTest {
 
     @Autowired
     private SrcValDataRepository srcValDataRepository;
-    
+
     public QuoteOfTheDayDALSpringJpaImplTest() {
     }
-    
+
     @BeforeAll
     public static void setUpClass() {
     }
-    
+
     @AfterAll
     public static void tearDownClass() {
     }
-    
+
     @BeforeEach
     public void setUp() {
     }
-    
+
     @AfterEach
     public void tearDown() {
     }
-    
+
     private static final String INIT_QUOTE_TEXT = "Initial";
     private static final String FINAL_QUOTE_TEXT = "Updated";
-    
+
     @Test
     @Sql("/dalTest.sql")
     public void test_updateQuote() {
         logger.info("test_updateQuote");
-        
+
         // create a random quote
         Quote q = new Quote();
         q.setSourceCode(1);
@@ -111,7 +115,7 @@ public class QuoteOfTheDayDALSpringJpaImplTest {
         q.setText(INIT_QUOTE_TEXT);
         logger.info("added quote " + q.getNumber());
         instance.addQuote(q);
-        
+
         // retrieve what we just created to get it in the cache
         q = instance.getQuote(q.getNumber());
         assertEquals(INIT_QUOTE_TEXT, q.getText());
@@ -125,34 +129,72 @@ public class QuoteOfTheDayDALSpringJpaImplTest {
         q = instance.getQuote(q.getNumber());
         assertEquals(FINAL_QUOTE_TEXT, q.getText());
     }
-    
+
     @Test
     @Sql("/dalTest.sql")
     public void testGetQuoteSourceCodes() {
         logger.info("testGetQuoteSourceCodes");
-        
+
         Collection<QuoteSourceCode> sourceCodes = instance.getQuoteSourceCodes();
         assertNotNull(sourceCodes);
-        assertTrue(sourceCodes.size() > 0);
+        assertTrue(!sourceCodes.isEmpty());
         sourceCodes.forEach(c -> logger.info("source code " + c.getText()));
-        
+
         // ensure the sorting is as expected.  The third one should be moved up 
         // to the front of the list.
         QuoteSourceCode first = sourceCodes.iterator().next();
         assertEquals(3, first.getNumber());
     }
-    
+
     @Test
     @Sql("/dalTest.sql")
     public void testGetQuotesForSourceCode() {
         logger.info("testGetQuotesForSourceCode");
-                
+
         Collection<Quote> quotes = instance.getQuotesForSourceCode(2);
         assertNotNull(quotes);
         assertFalse(quotes.isEmpty());
-        
+
         // test sorting, quote #1 having been inserted second should show up first
         Quote firstQuote = quotes.iterator().next();
         assertEquals(10, firstQuote.getNumber());
+    }
+
+    private Date parseDate(String ds) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            return sdf.parse(ds);
+        } catch (ParseException e) {
+            throw new RuntimeException("error parsing date: " + e.getMessage(), e);
+        }
+    }
+
+    @Test
+    @Sql("/quoteOfTheDayTest.sql")
+    public void testGetQuoteOfTheDayInDateRangeWithQuote() {
+        logger.info("getQuoteOfTheDayInDateRangeQithQuote");
+
+        int quoteNumber = 2;
+        Date startDate = parseDate("2020-01-01");
+        Date endDate = parseDate("2020-01-10");
+        
+        Collection<QuoteOfTheDay> qotds = instance.getQuoteOfTheDayInDateRange(quoteNumber, startDate, endDate);
+        
+        assertEquals(1, qotds.size());
+        assertEquals(2, qotds.iterator().next().getQuoteNumber());
+        assertEquals(parseDate("2020-01-02"), qotds.iterator().next().getRunDate());
+    }
+    
+    @Test
+    @Sql("/quoteOfTheDayTest.sql")
+    public void testGetQuoteOfTheDayInDateRange() {
+        logger.info("getQuoteOfTheDayInDateRange");
+
+        Date startDate = parseDate("2020-01-01");
+        Date endDate = parseDate("2021-01-01");
+        
+        Collection<QuoteOfTheDay> qotds = instance.getQuoteOfTheDayInDateRange(startDate, endDate);
+        
+        assertEquals(6, qotds.size());
     }
 }
