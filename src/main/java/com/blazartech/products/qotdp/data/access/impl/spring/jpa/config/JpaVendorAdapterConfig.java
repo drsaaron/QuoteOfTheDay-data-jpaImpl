@@ -22,11 +22,15 @@ public class JpaVendorAdapterConfig {
     @Value("${qotd.config.jpa.vendorType:MYSQL}")
     private String vendorType;
     
+    @Value("${app.jpa.dialect:org.hibernate.dialect.MySQLDialect}")
+    private String dbDialect;
+    
     @Bean
     public JpaVendorAdapter getJpaVendorAdapter() {
         HibernateJpaVendorAdapter va = new HibernateJpaVendorAdapter();
         va.setShowSql(true);
         va.setDatabase(Database.valueOf(vendorType));
+        va.setDatabasePlatform(dbDialect);
         va.setGenerateDdl(true);
         return va;
     }
