@@ -8,11 +8,9 @@ package com.blazartech.products.qotdp.data.access.impl.spring.jpa.repos;
 import com.blazartech.products.qotdp.data.access.impl.spring.jpa.config.JpaVendorAdapterConfig;
 import com.blazartech.products.qotdp.data.access.impl.spring.jpa.config.TransactionManagerConfig;
 import com.blazartech.products.qotdp.data.access.impl.spring.jpa.entity.QuoteOfTheDayData;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Collection;
-import java.util.Date;
 import jakarta.transaction.Transactional;
+import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -75,15 +73,10 @@ public class QuoteOfTheDayDataRepositoryTest {
     public void tearDown() {
     }
 
-    private Date parseDate(String d) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            return sdf.parse(d);
-        } catch (ParseException p) {
-            throw new RuntimeException("error parsing date: " + p.getMessage(), p);
-        }
+    private LocalDate parseDate(String d) {
+        return LocalDate.parse(d);
     }
-
+    
     /**
      * Test of findByQuoteDate method, of class QuoteOfTheDayDataRepository.
      */
@@ -99,12 +92,13 @@ public class QuoteOfTheDayDataRepositoryTest {
     public void testFindByQuoteDate() {
         logger.info("findByQuoteDate");
 
-        Date quoteDate = parseDate("2021-01-01");
+        LocalDate quoteDate = parseDate("2021-01-01");
 
         QuoteOfTheDayData result = instance.findByQuoteDate(quoteDate);
 
         assertNotNull(result);
         assertEquals(1, result.getQuoteNum());
+        assertEquals(quoteDate, result.getQuoteDate());
     }
 
     /**
@@ -115,8 +109,8 @@ public class QuoteOfTheDayDataRepositoryTest {
     public void testFindByDateRange() {
         logger.info("findByDateRange");
 
-        Date startDate = parseDate("2020-01-01");
-        Date endDate = parseDate("2020-01-03");
+        LocalDate startDate = parseDate("2020-01-01");
+        LocalDate endDate = parseDate("2020-01-03");
 
         Collection<QuoteOfTheDayData> result = instance.findByDateRange(startDate, endDate);
 

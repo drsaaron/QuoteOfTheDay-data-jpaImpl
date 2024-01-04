@@ -20,6 +20,7 @@ import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import java.time.LocalDate;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -46,7 +47,7 @@ public class QuoteOfTheDayData implements Serializable {
     @Basic(optional = false)
     @Column(name = "QuoteDate")
     @Temporal(TemporalType.DATE)
-    private Date quoteDate;
+    private LocalDate quoteDate;
     @JoinColumn(name = "QuoteNum", referencedColumnName = "QuoteNum")
     @ManyToOne(optional = false)
     private QuoteData quoteNum;
@@ -58,7 +59,7 @@ public class QuoteOfTheDayData implements Serializable {
         this.qotdNum = qotdNum;
     }
 
-    public QuoteOfTheDayData(Integer qotdNum, Date quoteDate) {
+    public QuoteOfTheDayData(Integer qotdNum, LocalDate quoteDate) {
         this.qotdNum = qotdNum;
         this.quoteDate = quoteDate;
     }
@@ -71,11 +72,11 @@ public class QuoteOfTheDayData implements Serializable {
         this.qotdNum = qotdNum;
     }
 
-    public Date getQuoteDate() {
+    public LocalDate getQuoteDate() {
         return quoteDate;
     }
 
-    public void setQuoteDate(Date quoteDate) {
+    public void setQuoteDate(LocalDate quoteDate) {
         this.quoteDate = quoteDate;
     }
 

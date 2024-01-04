@@ -170,7 +170,7 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
             QuoteOfTheDay q = new QuoteOfTheDay();
             q.setNumber(qotd.getQotdNum());
             q.setQuoteNumber(qotd.getQuoteNum().getQuoteNum());
-            q.setRunDate(convertToLocalDate(qotd.getQuoteDate()));
+            q.setRunDate(qotd.getQuoteDate());
             return q;
         } else {
             return null;
@@ -181,7 +181,7 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
         if (qotd.getNumber() > 0) {
             qotdData.setQotdNum(qotd.getNumber());
         }
-        qotdData.setQuoteDate(convertToDateViaInstant(qotd.getRunDate()));
+        qotdData.setQuoteDate(qotd.getRunDate());
         qotdData.setQuoteNum(quoteDataRepository.findById(qotd.getQuoteNumber()).get());
     }
 
@@ -189,7 +189,7 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
     public QuoteOfTheDay getQuoteOfTheDay(Date runDate) {
         logger.info("getting quote of the day for " + runDate);
 
-        QuoteOfTheDayData qotd = quoteOfTheDayDataRepository.findByQuoteDate(runDate);
+        QuoteOfTheDayData qotd = quoteOfTheDayDataRepository.findByQuoteDate(convertToLocalDate(runDate));
         return buildQuoteOfTheDay(qotd);
     }
 
@@ -265,7 +265,7 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
     public Collection<QuoteOfTheDay> getQuoteOfTheDayInDateRange(int quoteNumber, Date startDate, Date endDate) {
         logger.info("looking for instances of quote #" + quoteNumber + " in date range " + startDate + " to " + endDate);
 
-        Collection<QuoteOfTheDayData> qotdCollection = quoteOfTheDayDataRepository.findByDateRangeAndQuoteNumber(quoteNumber, startDate, endDate);
+        Collection<QuoteOfTheDayData> qotdCollection = quoteOfTheDayDataRepository.findByDateRangeAndQuoteNumber(quoteNumber, convertToLocalDate(startDate), convertToLocalDate(endDate));
         Collection<QuoteOfTheDay> qotds = buildQuoteOfTheDayList(qotdCollection);
 
         return qotds;
@@ -275,7 +275,7 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
     public Collection<QuoteOfTheDay> getQuoteOfTheDayInDateRange(Date startDate, Date endDate) {
         logger.info("getting quotes of day in date range " + startDate + " to " + endDate);
 
-        Collection<QuoteOfTheDayData> qotdCollection = quoteOfTheDayDataRepository.findByDateRange(startDate, endDate);
+        Collection<QuoteOfTheDayData> qotdCollection = quoteOfTheDayDataRepository.findByDateRange(convertToLocalDate(startDate), convertToLocalDate(endDate));
         Collection<QuoteOfTheDay> qotds = buildQuoteOfTheDayList(qotdCollection);
 
         return qotds;
