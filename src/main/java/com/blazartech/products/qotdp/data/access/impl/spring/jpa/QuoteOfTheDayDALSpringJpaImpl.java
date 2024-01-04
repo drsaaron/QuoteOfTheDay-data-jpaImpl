@@ -17,6 +17,12 @@ import com.blazartech.products.qotdp.data.access.impl.spring.jpa.entity.SrcValDa
 import com.blazartech.products.qotdp.data.access.impl.spring.jpa.repos.QuoteDataRepository;
 import com.blazartech.products.qotdp.data.access.impl.spring.jpa.repos.QuoteOfTheDayDataRepository;
 import com.blazartech.products.qotdp.data.access.impl.spring.jpa.repos.SrcValDataRepository;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Calendar;
+import static java.util.Calendar.DAY_OF_MONTH;
+import static java.util.Calendar.MONTH;
+import static java.util.Calendar.YEAR;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
@@ -146,12 +152,25 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
         return buildQuoteCollection(usableQuotes);
     }
 
+    public LocalDate convertToLocalDate(Date dateToConvert) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(dateToConvert);
+        LocalDate d = LocalDate.now().withYear(c.get(YEAR)).withMonth(c.get(MONTH) + 1).withDayOfMonth(c.get(DAY_OF_MONTH));
+        return d;
+    }
+
+    public Date convertToDateViaInstant(LocalDate dateToConvert) {
+        return java.util.Date.from(dateToConvert.atStartOfDay()
+                .atZone(ZoneId.systemDefault())
+                .toInstant());
+    }
+
     private QuoteOfTheDay buildQuoteOfTheDay(QuoteOfTheDayData qotd) {
         if (qotd != null) {
             QuoteOfTheDay q = new QuoteOfTheDay();
             q.setNumber(qotd.getQotdNum());
             q.setQuoteNumber(qotd.getQuoteNum().getQuoteNum());
-            q.setRunDate(qotd.getQuoteDate());
+            q.setRunDate(convertToLocalDate(qotd.getQuoteDate()));
             return q;
         } else {
             return null;
@@ -162,7 +181,7 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
         if (qotd.getNumber() > 0) {
             qotdData.setQotdNum(qotd.getNumber());
         }
-        qotdData.setQuoteDate(qotd.getRunDate());
+        qotdData.setQuoteDate(convertToDateViaInstant(qotd.getRunDate()));
         qotdData.setQuoteNum(quoteDataRepository.findById(qotd.getQuoteNumber()).get());
     }
 
@@ -241,7 +260,7 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
                         .collect(Collectors.toList());
         return qotds;
     }
-    
+
     @Override
     public Collection<QuoteOfTheDay> getQuoteOfTheDayInDateRange(int quoteNumber, Date startDate, Date endDate) {
         logger.info("looking for instances of quote #" + quoteNumber + " in date range " + startDate + " to " + endDate);

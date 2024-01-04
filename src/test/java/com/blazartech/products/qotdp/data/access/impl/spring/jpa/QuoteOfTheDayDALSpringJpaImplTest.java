@@ -20,6 +20,7 @@ import java.util.Collection;
 import jakarta.transaction.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -182,7 +183,7 @@ public class QuoteOfTheDayDALSpringJpaImplTest {
         
         assertEquals(1, qotds.size());
         assertEquals(2, qotds.iterator().next().getQuoteNumber());
-        assertEquals(parseDate("2020-01-02"), qotds.iterator().next().getRunDate());
+        assertEquals(LocalDate.parse("2020-01-02"), qotds.iterator().next().getRunDate());
     }
     
     @Test
