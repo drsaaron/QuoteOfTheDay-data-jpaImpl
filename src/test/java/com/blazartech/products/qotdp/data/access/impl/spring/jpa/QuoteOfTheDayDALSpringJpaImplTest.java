@@ -18,10 +18,7 @@ import com.blazartech.products.qotdp.data.access.impl.spring.jpa.repos.TestEntit
 import com.blazartech.products.qotdp.data.config.CacheConfiguration;
 import java.util.Collection;
 import jakarta.transaction.Transactional;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -161,13 +158,8 @@ public class QuoteOfTheDayDALSpringJpaImplTest {
         assertEquals(10, firstQuote.getNumber());
     }
 
-    private Date parseDate(String ds) {
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            return sdf.parse(ds);
-        } catch (ParseException e) {
-            throw new RuntimeException("error parsing date: " + e.getMessage(), e);
-        }
+    private LocalDate parseDate(String ds) {
+        return LocalDate.parse(ds);
     }
 
     @Test
@@ -176,8 +168,8 @@ public class QuoteOfTheDayDALSpringJpaImplTest {
         logger.info("getQuoteOfTheDayInDateRangeQithQuote");
 
         int quoteNumber = 2;
-        Date startDate = parseDate("2020-01-01");
-        Date endDate = parseDate("2020-01-10");
+        LocalDate startDate = parseDate("2020-01-01");
+        LocalDate endDate = parseDate("2020-01-10");
         
         Collection<QuoteOfTheDay> qotds = instance.getQuoteOfTheDayInDateRange(quoteNumber, startDate, endDate);
         
@@ -191,8 +183,8 @@ public class QuoteOfTheDayDALSpringJpaImplTest {
     public void testGetQuoteOfTheDayInDateRange() {
         logger.info("getQuoteOfTheDayInDateRange");
 
-        Date startDate = parseDate("2020-01-01");
-        Date endDate = parseDate("2021-01-01");
+        LocalDate startDate = parseDate("2020-01-01");
+        LocalDate endDate = parseDate("2021-01-01");
         
         Collection<QuoteOfTheDay> qotds = instance.getQuoteOfTheDayInDateRange(startDate, endDate);
         

@@ -186,10 +186,10 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
     }
 
     @Override
-    public QuoteOfTheDay getQuoteOfTheDay(Date runDate) {
+    public QuoteOfTheDay getQuoteOfTheDay(LocalDate runDate) {
         logger.info("getting quote of the day for " + runDate);
 
-        QuoteOfTheDayData qotd = quoteOfTheDayDataRepository.findByQuoteDate(convertToLocalDate(runDate));
+        QuoteOfTheDayData qotd = quoteOfTheDayDataRepository.findByQuoteDate(runDate);
         return buildQuoteOfTheDay(qotd);
     }
 
@@ -262,20 +262,20 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
     }
 
     @Override
-    public Collection<QuoteOfTheDay> getQuoteOfTheDayInDateRange(int quoteNumber, Date startDate, Date endDate) {
+    public Collection<QuoteOfTheDay> getQuoteOfTheDayInDateRange(int quoteNumber, LocalDate startDate, LocalDate endDate) {
         logger.info("looking for instances of quote #" + quoteNumber + " in date range " + startDate + " to " + endDate);
 
-        Collection<QuoteOfTheDayData> qotdCollection = quoteOfTheDayDataRepository.findByDateRangeAndQuoteNumber(quoteNumber, convertToLocalDate(startDate), convertToLocalDate(endDate));
+        Collection<QuoteOfTheDayData> qotdCollection = quoteOfTheDayDataRepository.findByDateRangeAndQuoteNumber(quoteNumber, startDate, endDate);
         Collection<QuoteOfTheDay> qotds = buildQuoteOfTheDayList(qotdCollection);
 
         return qotds;
     }
 
     @Override
-    public Collection<QuoteOfTheDay> getQuoteOfTheDayInDateRange(Date startDate, Date endDate) {
+    public Collection<QuoteOfTheDay> getQuoteOfTheDayInDateRange(LocalDate startDate, LocalDate endDate) {
         logger.info("getting quotes of day in date range " + startDate + " to " + endDate);
 
-        Collection<QuoteOfTheDayData> qotdCollection = quoteOfTheDayDataRepository.findByDateRange(convertToLocalDate(startDate), convertToLocalDate(endDate));
+        Collection<QuoteOfTheDayData> qotdCollection = quoteOfTheDayDataRepository.findByDateRange(startDate, endDate);
         Collection<QuoteOfTheDay> qotds = buildQuoteOfTheDayList(qotdCollection);
 
         return qotds;
