@@ -5,7 +5,6 @@
     <class>com.blazartech.products.qotdp.data.access.impl.spring.jpa.entity.QuoteData</class>
     <class>com.blazartech.products.qotdp.data.access.impl.spring.jpa.entity.QuoteOfTheDayData</class>
     <class>com.blazartech.products.qotdp.data.access.impl.spring.jpa.entity.SrcValData</class>
-    <validation-mode>NONE</validation-mode>
     <properties>
     </properties>
   </persistence-unit>

@@ -26,7 +26,7 @@ public class JpaVendorAdapterConfig {
     private String dbDialect;
     
     @Bean
-    public JpaVendorAdapter getJpaVendorAdapter() {
+    public JpaVendorAdapter jpaVendorAdapter() {
         HibernateJpaVendorAdapter va = new HibernateJpaVendorAdapter();
         va.setShowSql(true);
         va.setDatabase(Database.valueOf(vendorType));

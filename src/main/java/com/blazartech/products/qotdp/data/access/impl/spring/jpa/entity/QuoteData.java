@@ -33,8 +33,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "Quote")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "QuoteData.findAll", query = "SELECT q FROM QuoteData q")
-    , @NamedQuery(name = "QuoteData.findByQuoteNum", query = "SELECT q FROM QuoteData q WHERE q.quoteNum = :quoteNum")
+    @NamedQuery(name = "QuoteData.findAll", query = "SELECT q FROM QuoteData q"),
+    @NamedQuery(name = "QuoteData.findByQuoteNum", query = "SELECT q FROM QuoteData q WHERE q.quoteNum = :quoteNum"),
+    @NamedQuery(name = "QuoteData.findBySrcCde", query = "SELECT q from QuoteData q where q.srcCde.srcCde = :srcCde")
 })
 public class QuoteData implements Serializable {
 
@@ -135,5 +136,5 @@ public class QuoteData implements Serializable {
     public String toString() {
         return "com.blazartech.products.qotdp.data.access.impl.spring.jpa.entity.Quote[ quoteNum=" + quoteNum + " ]";
     }
-    
+
 }

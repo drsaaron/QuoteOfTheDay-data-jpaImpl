@@ -23,4 +23,5 @@ public interface QuoteOfTheDayDataRepository extends JpaRepository<QuoteOfTheDay
     QuoteOfTheDayData findByQuoteDate(LocalDate quoteDate);
     Collection<QuoteOfTheDayData> findByDateRangeAndQuoteNumber(@Param("quoteNumber") int quoteNumber, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
     Collection<QuoteOfTheDayData> findByDateRange(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+    Collection<QuoteOfTheDayData> findByQuoteNum(@Param("quoteNum") int quoteNumber);
 }

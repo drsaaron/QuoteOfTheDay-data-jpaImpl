@@ -286,9 +286,8 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
         logger.info("getting quotes for source code " + sourceCode);
 
         // retrieve the source code and use its quote collection.
-        SrcValData srcCode = srcValDataRepository.findById(sourceCode).get();
-        Collection<QuoteData> quotes = srcCode.getQuoteCollection();
-
+        Collection<QuoteData> quotes = quoteDataRepository.findBySrcCde(sourceCode);
+        
         return buildQuoteCollection(quotes);
     }
 
@@ -297,8 +296,7 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
         logger.info("getting history for quote #" + quoteNumber);
 
         // get the quotes of the day via the quote.
-        QuoteData quoteData = quoteDataRepository.findById(quoteNumber).get();
-        Collection<QuoteOfTheDayData> qotdCollection = quoteData.getQuoteOfTheDayCollection();
+        Collection<QuoteOfTheDayData> qotdCollection = quoteOfTheDayDataRepository.findByQuoteNum(quoteNumber);
 
         // convert to a collection of application objects.
         Collection<QuoteOfTheDay> qotdList = buildQuoteOfTheDayList(qotdCollection);

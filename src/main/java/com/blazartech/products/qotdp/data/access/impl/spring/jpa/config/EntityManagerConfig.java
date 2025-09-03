@@ -31,8 +31,8 @@ public class EntityManagerConfig {
     @Autowired
     private JpaVendorAdapter jpaVendorDapter;
     
-    @Bean(name = "entityManagerFactory")
-    public LocalContainerEntityManagerFactoryBean getEntityManagerFactory() {
+    @Bean
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean f = new LocalContainerEntityManagerFactoryBean();
         f.setDataSource(dataSource);
         f.setPersistenceXmlLocation("classpath:META-INF/persistence.xml");

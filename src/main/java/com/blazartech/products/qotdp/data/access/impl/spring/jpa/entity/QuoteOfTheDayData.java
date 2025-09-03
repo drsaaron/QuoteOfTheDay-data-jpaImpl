@@ -31,10 +31,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "QuoteOfTheDay")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "QuoteOfTheDayData.findAll", query = "SELECT q FROM QuoteOfTheDayData q")
-    , @NamedQuery(name = "QuoteOfTheDayData.findByQotdNum", query = "SELECT q FROM QuoteOfTheDayData q WHERE q.qotdNum = :qotdNum")
-    , @NamedQuery(name = "QuoteOfTheDayData.findByDateRangeAndQuoteNumber", query = "SELECT q FROM QuoteOfTheDayData q WHERE q.quoteNum.quoteNum = :quoteNumber and q.quoteDate between :startDate and :endDate")
-    , @NamedQuery(name = "QuoteOfTheDayData.findByDateRange", query = "SELECT q FROM QuoteOfTheDayData q WHERE q.quoteDate between :startDate and :endDate")
+    @NamedQuery(name = "QuoteOfTheDayData.findAll", query = "SELECT q FROM QuoteOfTheDayData q"),
+    @NamedQuery(name = "QuoteOfTheDayData.findByQotdNum", query = "SELECT q FROM QuoteOfTheDayData q WHERE q.qotdNum = :qotdNum"),
+    @NamedQuery(name = "QuoteOfTheDayData.findByQuoteNum", query = "SELECT q from QuoteOfTheDayData q where q.quoteNum.quoteNum = :quoteNum"),
+    @NamedQuery(name = "QuoteOfTheDayData.findByDateRangeAndQuoteNumber", query = "SELECT q FROM QuoteOfTheDayData q WHERE q.quoteNum.quoteNum = :quoteNumber and q.quoteDate between :startDate and :endDate"),
+    @NamedQuery(name = "QuoteOfTheDayData.findByDateRange", query = "SELECT q FROM QuoteOfTheDayData q WHERE q.quoteDate between :startDate and :endDate")
 })
 public class QuoteOfTheDayData implements Serializable {
 
