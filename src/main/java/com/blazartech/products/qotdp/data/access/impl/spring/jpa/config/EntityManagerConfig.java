@@ -20,7 +20,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
  */
 @Configuration
 @EnableJpaRepositories(basePackages = "com.blazartech.products.qotdp.data.access.impl.spring.jpa.repos",
-                       transactionManagerRef = "txManager",
+                       transactionManagerRef = "qotdTransactionManager",
                        entityManagerFactoryRef = "entityManagerFactory"
                        )
 public class EntityManagerConfig {
@@ -29,14 +29,14 @@ public class EntityManagerConfig {
     private DataSource dataSource;
     
     @Autowired
-    private JpaVendorAdapter jpaVendorDapter;
+    private JpaVendorAdapter jpaVendorAdapter;
     
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean f = new LocalContainerEntityManagerFactoryBean();
         f.setDataSource(dataSource);
         f.setPersistenceXmlLocation("classpath:META-INF/persistence.xml");
-        f.setJpaVendorAdapter(jpaVendorDapter);
+        f.setJpaVendorAdapter(jpaVendorAdapter);
         f.setPersistenceUnitName("com.blazartech_QuoteOfTheDay-data-jpaImpl_jar_1.0-SNAPSHOTPU");
         
         // set the hibernate.hbm2ddl.auto to disable any schema updates.  This

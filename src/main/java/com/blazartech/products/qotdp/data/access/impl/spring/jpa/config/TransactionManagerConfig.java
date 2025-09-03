@@ -23,7 +23,7 @@ public class TransactionManagerConfig {
     private EntityManagerFactory emf;
     
     @Bean
-    public PlatformTransactionManager txManager() {
+    public PlatformTransactionManager qotdTransactionManager() {
         JpaTransactionManager m = new JpaTransactionManager(emf);
         return m;
     }

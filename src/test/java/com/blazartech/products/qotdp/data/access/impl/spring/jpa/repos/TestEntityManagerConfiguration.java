@@ -19,7 +19,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
  */
 @Configuration
 @EnableJpaRepositories(basePackages = "com.blazartech.products.qotdp.data.access.impl.spring.jpa.repos",
-        transactionManagerRef = "txManager",
+        transactionManagerRef = "qotdTransactionManager",
         entityManagerFactoryRef = "entityManagerFactory"
 )
 public class TestEntityManagerConfiguration {
@@ -28,14 +28,14 @@ public class TestEntityManagerConfiguration {
     private DataSource dataSource;
 
     @Autowired
-    private JpaVendorAdapter jpaVendorDapter;
+    private JpaVendorAdapter jpaVendorAdapter;
 
     @Bean(name = "entityManagerFactory")
     public LocalContainerEntityManagerFactoryBean getEntityManagerFactory() {
         LocalContainerEntityManagerFactoryBean f = new LocalContainerEntityManagerFactoryBean();
         f.setDataSource(dataSource);
         f.setPersistenceXmlLocation("classpath:META-INF/test-persistence.xml");
-        f.setJpaVendorAdapter(jpaVendorDapter);
+        f.setJpaVendorAdapter(jpaVendorAdapter);
         f.setPersistenceUnitName("test_com.blazartech_QuoteOfTheDay-data-jpaImpl_jar_1.0-SNAPSHOTPU");
 
         return f;
