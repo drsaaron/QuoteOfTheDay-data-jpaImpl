@@ -6,7 +6,7 @@
     <class>com.blazartech.products.qotdp.data.access.impl.spring.jpa.entity.QuoteOfTheDayData</class>
     <class>com.blazartech.products.qotdp.data.access.impl.spring.jpa.entity.SrcValData</class>
     <properties>
-        <property name="javax.persistence.schema-generation.database.action" value="drop-and-create" />
+        <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create" />
         <property name="hibernate.hbm2ddl.auto" value="create-drop" />
     </properties>
   </persistence-unit>
