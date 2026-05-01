@@ -35,19 +35,20 @@
             <artifactId>spring-oxm</artifactId>
         </dependency>
 
-	<dependency>
-	  <groupId>org.hibernate.orm</groupId>
-	  <artifactId>hibernate-core</artifactId>
-	</dependency>
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-core</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjtools</artifactId>
         </dependency>
+        
         <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-	    <version>2.4.0-b180830.0359</version>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <scope>compile</scope>
         </dependency>
         
         <!-- h2 for unit testing -->
@@ -109,14 +110,14 @@
     <build>
         <plugins>
 
-	    <!-- ignore RC releases for hibernate -->
-	    <plugin>
-	      <groupId>org.codehaus.mojo</groupId>
-	      <artifactId>versions-maven-plugin</artifactId>
-	      <configuration>
-		<rulesUri>file:versionUpdateExclude.xml</rulesUri>
-	      </configuration>
-	    </plugin>
+            <!-- ignore RC releases for hibernate -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <configuration>
+                    <rulesUri>file:versionUpdateExclude.xml</rulesUri>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
