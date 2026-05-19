@@ -18,14 +18,8 @@ import com.blazartech.products.qotdp.data.access.impl.spring.jpa.repos.QuoteData
 import com.blazartech.products.qotdp.data.access.impl.spring.jpa.repos.QuoteOfTheDayDataRepository;
 import com.blazartech.products.qotdp.data.access.impl.spring.jpa.repos.SrcValDataRepository;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Calendar;
-import static java.util.Calendar.DAY_OF_MONTH;
-import static java.util.Calendar.MONTH;
-import static java.util.Calendar.YEAR;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
@@ -152,19 +146,6 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
         return buildQuoteCollection(usableQuotes);
     }
 
-    public LocalDate convertToLocalDate(Date dateToConvert) {
-        Calendar c = Calendar.getInstance();
-        c.setTime(dateToConvert);
-        LocalDate d = LocalDate.now().withYear(c.get(YEAR)).withMonth(c.get(MONTH) + 1).withDayOfMonth(c.get(DAY_OF_MONTH));
-        return d;
-    }
-
-    public Date convertToDateViaInstant(LocalDate dateToConvert) {
-        return java.util.Date.from(dateToConvert.atStartOfDay()
-                .atZone(ZoneId.systemDefault())
-                .toInstant());
-    }
-
     private QuoteOfTheDay buildQuoteOfTheDay(QuoteOfTheDayData qotd) {
         if (qotd != null) {
             QuoteOfTheDay q = new QuoteOfTheDay();
@@ -212,7 +193,7 @@ public class QuoteOfTheDayDALSpringJpaImpl extends QuoteOfTheDayDALBaseImpl impl
         Collection<SrcValData> srcValCollection = srcValDataRepository.findAll();
         List<QuoteSourceCode> sourceCodes
                 = srcValCollection.stream()
-                        .map((srcVal) -> buildSourceCode(srcVal))
+                        .map(this::buildSourceCode)
                         .sorted(sourceCodeComparator)
                         .collect(Collectors.toList());
 
